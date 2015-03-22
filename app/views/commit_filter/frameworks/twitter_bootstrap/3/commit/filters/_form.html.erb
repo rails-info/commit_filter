@@ -1,0 +1,62 @@
+<%= form_tag commit_filter.commit_filters_path, method: 'post', class: 'form-horizontal', id: 'commit_filter_form' do %>
+  <% unless action_name == 'new' || @filter.valid? %>
+     <div class="alert fade in alert-danger">
+       <strong><%= t('commit_filter.filters.form.invalid') %></strong> 
+       <ul>
+         <% @filter.errors.each do |field, error| %>
+           <li><%= field.humanize %>: <%=error %></li>
+         <% end %>
+       </ul>
+     </div>
+  <% end %>
+  
+  <fieldset>
+    <legend>
+      <%= t('commit_filter.filters.form.tabs.basic.title') %>
+    </legend>
+    
+    <%= form_field @filter, 'workspace', size: 45 %>
+    <%= form_field @filter, 'repository', size: 45 %>
+    <%= form_field(
+      @filter, 'repository_provider', size: 45, 
+      field: select_tag(
+        'filter[repository_provider]', options_for_select(['', 'plan.io'], @filter.repository_provider),
+        style: 'width:325px;'
+      )
+    ) %>
+    <%= form_field @filter, 'repository_host', size: 45 %>
+    <%= form_field @filter, 'project_slug', size: 45 %>
+    <%= form_field @filter, 'branch', size: 45 %>
+    <%= form_field @filter, 'issue_url', size: 45 %>
+  </fieldset>
+  <fieldset style="padding:10px; border:1px solid black;">
+    <legend><%= t('commit_filter.filters.form.tabs.time_span.title') %></legend>
+    
+    <%= form_field @filter, 'from', size: 45, class: 'datepicker' %>
+    <%= form_field @filter, 'to', size: 45, class: 'datepicker' %>
+  </fieldset>
+  <fieldset>
+    <legend><%= t('commit_filter.filters.form.tabs.commit.title') %></legend>
+    
+    <%= form_field @filter, 'id', size: 45 %>
+    <%= form_field @filter, 'message', size: 45 %>
+    <%= form_field @filter, 'path', size: 45 %>
+    <%= form_field @filter, 'author', size: 45 %>
+    <% field = capture do %>
+      <%= radio_button_tag 'filter[filter_merges]', '1', @filter.filter_merges ? true : false %> 
+      <%= t('commit_filter.general.yes') %>
+      <%= radio_button_tag 'filter[filter_merges]', '0', @filter.filter_merges ? false : true  %> 
+      <%= t('commit_filter.general.no') %>
+    <% end %>
+    <%= form_field @filter, 'filter_merges', size: 45, field: field %>
+  </fieldset>
+  
+  <p>
+  </p>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-10">
+      <button type="submit" class="btn btn-primary"><%= t('commit_filter.filters.form.submit')%></button>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,13 @@
+<%= javascript_include_tag *commit_filter_javascripts %>
+<%= yield :javascript_includes %>
+
+<%= javascript_tag do %>
+  var diffPath = "<%= new_commit_diff_path %>";
+  var spinnerImagePath = "<%= asset_path('home_page/spinner.gif') %>";
+  
+  <%= yield :top_javascript %>
+  
+  $(function() {
+    <%= yield(:document_ready) %>
+  });
+<% end %>

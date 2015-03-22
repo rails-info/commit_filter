@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-4 col-md-4">
+    <%= render "#{framework_views_path}/commit/filters/form" %>
+  </div>
+  <div class="col-sm-8 col-md-8">
+<% if @filter.valid? && @filter.last_revision.present? %>
+    <p>
+      <strong><%= t('commit_filter.general.commits') %>:</strong> <%= @filter.commits_count %> 
+      <strong><%= t('commit_filter.general.files') %>:</strong> <%= @filter.files_count %>
+    </p>
+
+    <%= render partial: "#{framework_views_path}/commit/filters/categories" %>
+<% end %>
+  </div>
+</div>
+
+<% content_for :top_javascript do %>
+  var repositoryProvider = "<%= @filter.repository_provider %>";
+  var repositoryHost = "<%= @filter.repository_host %>";
+<% end %>

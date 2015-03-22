@@ -1,0 +1,15 @@
+body {
+  padding-top: 10px;
+}
+
+#commit_filter_form fieldset {
+  padding:10px; 
+  border:1px solid black;
+}
+
+#commit_filter_form legend {
+  width:auto; 
+  margin-bottom:0px; 
+  margin-top:0px; 
+  border-width:0px;
+}

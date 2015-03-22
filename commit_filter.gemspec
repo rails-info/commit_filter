@@ -17,4 +17,17 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'rails', '~> 4.2.0'
+  
+  # misc
+  s.add_dependency 'gem_config', '~> 0.3.1'
+  
+  # model
+  s.add_dependency 'sqlite3', '~> 1.3.10'
+  s.add_dependency 'gitlab-grit', '~> 2.7.3'
+  
+  # view
+  s.add_dependency 'coffee-script', '~> 2.3.0'
+  s.add_dependency 'jquery-rails', '~> 4.0.3'
+  s.add_dependency 'diff_to_html', '~> 0.0.1'
+  s.add_dependency 'pygments.rb', '~> 0.6.2'
 end

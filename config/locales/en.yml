@@ -1,0 +1,74 @@
+en:
+  commit_filter:
+    general:
+      title: Commit Filter
+      commits: Commits
+      files: Files
+      yes: Yes
+      no: No
+      date: Date
+      loading: Loading
+      diff: Diff
+      close: Close
+      errors:
+        internal_server_error: Internal server error.
+      
+    filters:
+      form:
+        invalid: Filter is invalid!
+        
+        tabs:
+          basic:
+            title: Basic
+          time_span:
+            title: Time Span
+          commit:
+            title: Commit
+        
+        fields:
+          workspace:
+            title: Workspace
+            placeholder: e.g. /users/user_name/workspace
+          repository:
+            title: Repository
+          repository_provider:
+            title: Repository Provider
+          repository_host:
+            title: Repository Host
+          project_slug:
+            title: Project slug
+          branch:
+            title: Branch
+          issue_url:
+            title: Issue URL
+            placeholder: e.g. https://host/repository_path/issues/:id
+          path:
+            title: Path
+          author:
+            title: Author
+          from:
+            title: From
+          to:
+            title: To
+          id:
+            title: ID
+          message:
+            title: Message
+          filter_merges:
+            title: Filter merges
+            hint: Message matches "^Merge branch "
+           
+        submit: Submit  
+              
+      create:
+        diff_from_last_to_previous_revision: Diff from last to previous revision (currently includes commits not matching the current filter)
+        
+        errors:
+          nothing_found: Nothing found.
+          repository_not_found: Repository not found.
+          cannot_be_blank: can't be blank.
+          not_enough_criteria: "Please set at least one of these: path, author, id, message, story, tasks, from, to."
+          too_many_git_timeouts: Too many timeouts for git connection!
+    diff:
+      errors:
+        diff_length_not_one: "Not implemented error: diff length is not 1 but %{diff.length}."

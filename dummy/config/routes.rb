@@ -1,4 +1,3 @@
 Rails.application.routes.draw do
-
-  mount CommitFilter::Engine => "/commit_filter"
+  mount CommitFilter::Engine => "/rails/info"
 end
