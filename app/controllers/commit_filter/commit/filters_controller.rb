@@ -17,7 +17,10 @@ class CommitFilter::Commit::FiltersController < CommitFilter::ApplicationControl
     end
     
     @commit_filter_stylesheets = ['application', 'commit_filter/application', 'commit_filter/commit/diff']
-    @commit_filter_javascripts = ['application', 'commit_filter/file_commits']
+    @commit_filter_javascripts = [
+      'application', 'commit_filter/file_commits', 
+      "#{CommitFilter::ApplicationController.framework_views_path}/filter_result"
+    ]
     
     render "#{framework_views_path}/commit/filters/new"
   end
