@@ -1,8 +1,7 @@
 <div class="panel-group" id="commit_filter_accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-default">
 <% index = 0 %>
-<% @filter.files_by_category.each do |category, setting| %>
-  <% paths = setting[:files].keys.sort %>
+<% @filter.commits_by_file.each do |category, setting| %>
     <div class="panel-heading" role="tab" id="heading<%= index + 1 %>">
       <h4 class="panel-title">
         <a 
@@ -15,28 +14,12 @@
       </h4>
     </div>
     
-    <div id="commit_category_<%= category %>" class="panel-collapse collapse<% if index == 0 %> in<% end %>" role="tabpanel" aria-labelledby="heading<%= index + 1 %>">
+    <div 
+      id="commit_category_<%= category %>" class="panel-collapse collapse<% if index == 0 %> in<% end %>" 
+      role="tabpanel" aria-labelledby="heading<%= index + 1 %>"
+    >
       <div class="panel-body" style="padding:15px 15px 0px 15px;">
-        <div role="tabpanel">
-          <ul class="nav nav-tabs" role="tablist">
-  <% paths.each_with_index do |path, file_index| %>
-    <% commits = setting[:files][path] %>  
-    <% matching_part = setting[:paths].select{|part| path.match(part) }.first %>        
-            <li role="presentation"<% if file_index == 0 %> class="active"<% end %>>
-              <a href="#commit_file_<%= path.gsub(/\/|\./, '_') %>" aria-controls="commit_file_<%= path.gsub(/\/|\./, '_') %>" role="tab" data-toggle="tab">
-                <%= matching_part ? path.gsub(matching_part, '') : path %>
-              </a>
-            </li>
-  <% end %>
-          </ul>
-          <div class="tab-content">
-  <% paths.each_with_index do |path, file_index| %>        
-            <div role="tabpanel" class="tab-pane<% if file_index == 0 %> active<% end %>" id="commit_file_<%= path.gsub(/\/|\./, '_') %>">
-              <%= render "#{framework_views_path}/commit/filters/file_commits", commits: setting[:files][path], path: path %>
-            </div>
-  <% end %>
-          </div>
-        </div>
+        <%= render partial: "#{framework_views_path}/commit/filters/files", locals: { commits_by_file: setting[:files], paths: setting[:paths] } %>
       </div>
     </div>
   <% index += 1 %>

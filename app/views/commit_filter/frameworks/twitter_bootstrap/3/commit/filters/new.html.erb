@@ -9,7 +9,11 @@
       <strong><%= t('commit_filter.general.files') %>:</strong> <%= @filter.files_count %>
     </p>
 
+  <% if @filter.group_by_rails_file_category %>
     <%= render partial: "#{framework_views_path}/commit/filters/categories" %>
+  <% else %>
+    <%= render partial: "#{framework_views_path}/commit/filters/files", locals: { commits_by_file: @filter.commits_by_file } %>
+  <% end %>
 <% end %>
   </div>
 </div>

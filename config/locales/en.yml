@@ -42,6 +42,9 @@ en:
           issue_url:
             title: Issue URL
             placeholder: e.g. https://host/repository_path/issues/:id
+          group_by_rails_file_category:
+            title: Group by File Category
+            hint: Only for Rails apps.
           path:
             title: Path
           author:

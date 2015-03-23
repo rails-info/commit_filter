@@ -1,0 +1,26 @@
+<% paths ||= nil %>
+
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+<% file_index = 0 %>
+<% commits_by_file.keys.sort_by{ |x| x.downcase }.each do |path| %>  
+  <% matching_part = paths.nil? ? nil : paths.select{|part| path.match(part) }.first %>        
+    <li role="presentation"<% if file_index == 0 %> class="active"<% end %>>
+      <a href="#commit_file_<%= path.gsub(/\/|\./, '_') %>" aria-controls="commit_file_<%= path.gsub(/\/|\./, '_') %>" role="tab" data-toggle="tab">
+        <%= matching_part ? path.gsub(matching_part, '') : path %>
+      </a>
+    </li>
+  <% file_index += 1 %>
+<% end %>
+  </ul>
+  <div class="tab-content">
+<% file_index = 0 %>
+<% commits_by_file.keys.sort_by{ |x| x.downcase }.each do |path| %>     
+  <% commits = commits_by_file[path] %>
+    <div role="tabpanel" class="tab-pane<% if file_index == 0 %> active<% end %>" id="commit_file_<%= path.gsub(/\/|\./, '_') %>">
+      <%= render "#{framework_views_path}/commit/filters/file_commits", commits: commits, path: path %>
+    </div>
+  <% file_index += 1 %>
+<% end %>
+  </div>
+</div>
