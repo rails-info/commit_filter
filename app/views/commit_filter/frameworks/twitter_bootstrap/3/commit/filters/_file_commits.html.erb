@@ -12,8 +12,8 @@
         <th colspan="2" style="width: 50px; text-align:center">
           <%= version_control_diff_link path, commits.first[:id].try(:to_s) %>
         </th>
-        <th><%= t('commit_filter.general.date') %></th>
-        <th><%= t('commit_filter.filters.form.fields.author.title') %></th>
+        <th style="width:150px;"><%= t('commit_filter.general.date') %></th>
+        <th style="width:150px;"><%= t('commit_filter.filters.form.fields.author.title') %></th>
         <th><%= t('commit_filter.filters.form.fields.message.title') %></th>
       </tr>
     </thead>
@@ -36,8 +36,8 @@
               <%= radio_button_tag :rev_to, commit[:id].try(:to_s), checked, id: '' %>
             <% end %>
           </td>
-          <td><%= annotate_file_link commit[:committed_at], commit[:id], path %></td>
-          <td><%= commit[:author]%></td>
+          <td style="width:150px;"><%= annotate_file_link commit[:committed_at], commit[:id], path %></td>
+          <td style="width:150px;"><%= commit[:author]%></td>
           <td>
             <%= raw message_with_issue_urls(commit[:message]) %>
           </td>
