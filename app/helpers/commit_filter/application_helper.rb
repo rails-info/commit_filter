@@ -10,7 +10,12 @@ module CommitFilter
     
     def message_with_issue_urls(message)
       if @filter.issue_url.present?
-        message.gsub(/#([0-9]+)/) {|s| "<a href=\"#{@filter.repository_host}/issues/#{s.gsub('#', '')}\">#{s}</a>" }
+        message.gsub(/#([0-9]+)/) do |s| 
+          issue_url = @filter.issue_url.split(':id')
+          s = s.gsub('#', '')
+          issue_url = "#{issue_url[0]}#{s}#{issue_url[1]}"
+          "<a href=\"#{issue_url}\">##{s}</a>"
+        end
       else
         message
       end
