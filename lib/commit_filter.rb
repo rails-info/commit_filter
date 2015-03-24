@@ -26,7 +26,7 @@ module CommitFilter
     has :branch, classes: String, default: 'master'
     has :issue_url, classes: String
     has :group_by_rails_file_category, classes: [TrueClass, FalseClass], default: false
-    has :filter_merges, classes: [TrueClass, FalseClass], default: true
+    has :hide_merge_commits, classes: [TrueClass, FalseClass], default: true
     has :git_debug_logging, classes: [TrueClass, FalseClass], default: false
   end
 end

@@ -47,17 +47,18 @@
     <legend><%= t('commit_filter.filters.form.tabs.commit.title') %></legend>
     
     <%= form_field @filter, 'id', size: 45 %>
+    <%= form_field @filter, 'hashtag', size: 45 %>
     <%= form_field @filter, 'message', size: 45 %>
     <%= form_field @filter, 'path', size: 45 %>
     <%= form_field @filter, 'author', size: 45 %>
     
     <% field = capture do %>
-      <%= radio_button_tag 'filter[filter_merges]', '1', @filter.filter_merges ? true : false %> 
+      <%= radio_button_tag 'filter[hide_merge_commits]', '1', @filter.hide_merge_commits ? true : false %> 
       <%= t('commit_filter.general.yes') %>
-      <%= radio_button_tag 'filter[filter_merges]', '0', @filter.filter_merges ? false : true  %> 
+      <%= radio_button_tag 'filter[hide_merge_commits]', '0', @filter.hide_merge_commits ? false : true  %> 
       <%= t('commit_filter.general.no') %>
     <% end %>
-    <%= form_field @filter, 'filter_merges', size: 45, field: field %>
+    <%= form_field @filter, 'hide_merge_commits', size: 45, field: field %>
   </fieldset>
   
   <p>

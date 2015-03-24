@@ -1,6 +1,8 @@
 class CommitFilter::Model
-  attr_accessor :workspace, :repository, :project_slug, :branch, :path, :author, :from, :to, :id
-  attr_accessor :message, :story, :tasks, :filter_merges, :logger, :issue_url, :repository_provider, :repository_host
+  HASHTAG_REGEX = /(?:\s|^)(#(?!([0-9]?:\d+|\w+?_|_\w+?)(?:\s|$))([a-z0-9\-_]+))/i
+  
+  attr_accessor :workspace, :repository, :project_slug, :branch, :path, :author, :from, :to, :id, :hashtag
+  attr_accessor :message, :story, :tasks, :hide_merge_commits, :logger, :issue_url, :repository_provider, :repository_host
   attr_accessor :group_by_rails_file_category
   attr_reader :errors, :commits_count, :last_revision, :first_revision, :previous_revision, :previous_revision_by_file
   
@@ -89,7 +91,7 @@ class CommitFilter::Model
       'project_slug' => CommitFilter.configuration.project_slug,
       'branch' => CommitFilter.configuration.branch, 
       'issue_url' => CommitFilter.configuration.issue_url,
-      'filter_merges' => CommitFilter.configuration.filter_merges 
+      'hide_merge_commits' => CommitFilter.configuration.hide_merge_commits 
     }
     
     if CommitFilter.configuration.workspace_and_repository_from_rails_root
@@ -99,7 +101,7 @@ class CommitFilter::Model
     end
     
     attributes = default_attributes.merge(attributes)
-    attributes['filter_merges'] = false if attributes['filter_merges'].to_s == '0'
+    attributes['hide_merge_commits'] = false if attributes['hide_merge_commits'].to_s == '0'
     attributes['to'] = 1.day.since.strftime('%Y-%m-%d') if attributes['from'].present? && attributes['to'].blank?
     
     attributes.each {|attribute, value| self.send("#{attribute}=", value) }
@@ -108,11 +110,17 @@ class CommitFilter::Model
   def _valid?
     @errors ||= {}
     
-    ['workspace', 'repository', 'project_slug', 'branch'].each do |field|
+    ['workspace', 'repository', 'branch'].each do |field|
       @errors[field] = I18n.t('commit_filter.filters.create.errors.cannot_be_blank') if self.send(field).blank?
     end  
     
-    if path.blank? && author.blank? && id.blank? && message.blank? && story.blank? && tasks.blank? && from.blank? && to.blank?
+    if repository_provider == 'plan.io'
+      ['repository_host', 'project_slug'].each do |field|
+        @errors[field] = I18n.t('commit_filter.filters.create.errors.cannot_be_blank') if self.send(field).blank?
+      end  
+    end
+    
+    if path.blank? && author.blank? && id.blank? && hashtag.blank? && message.blank? && story.blank? && tasks.blank? && from.blank? && to.blank?
       @errors['base'] = I18n.t('commit_filter.filters.create.errors.not_enough_criteria')
     end
     
@@ -139,10 +147,13 @@ class CommitFilter::Model
   end
   
   def commit_attributes_match_criteria?(commit)
-    if filter_merges && commit.message.match(/^Merge branch /)
-      return false
-    elsif commit.message.match(message) && (author.blank? || commit.author.name == author) && between_timespan?(commit.committed_date)
-      return true
+    if hide_merge_commits && commit.message.match(/^Merge branch /)
+      false
+    elsif (
+      (message != '' && commit.message.match(message)) || 
+      commit_message_includes_hashtag(commit.message)
+    ) && (author.blank? || commit.author.name == author) && between_timespan?(commit.committed_date)
+      true
     else
       @previous_revision ||= commit.id
         
@@ -152,10 +163,14 @@ class CommitFilter::Model
     end
   end
   
+  def commit_message_includes_hashtag(commit_message)
+    hashtag.present? && commit_message.scan(HASHTAG_REGEX).map(&:first).include?(hashtag)
+  end
+  
   def add_commit_to_files(commit)
     @previous_revision = nil
     
-    return if filter_merges && commit.message.match(/^Merge branch /)
+    return if hide_merge_commits && commit.message.match(/^Merge branch /)
     
     if commit.message.match(message) && (author.blank? || commit.author.name == author) && between_timespan?(commit.committed_date)
       @previous_revision = nil

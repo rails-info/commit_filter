@@ -55,10 +55,13 @@ en:
             title: To
           id:
             title: ID
+          hashtag:
+            title: Hashtag
+            hint: Including "#".
           message:
             title: Message
-          filter_merges:
-            title: Filter merges
+          hide_merge_commits:
+            title: Hide merge commits
             hint: Message matches "^Merge branch "
            
         submit: Submit  
@@ -70,7 +73,7 @@ en:
           nothing_found: Nothing found.
           repository_not_found: Repository not found.
           cannot_be_blank: can't be blank.
-          not_enough_criteria: "Please set at least one of these: path, author, id, message, story, tasks, from, to."
+          not_enough_criteria: "Please set at least one of these: path, author, id, hashtag, message, story, tasks, from, to."
           too_many_git_timeouts: Too many timeouts for git connection!
     diff:
       errors:
