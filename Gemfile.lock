@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    commit_filter (0.0.1)
+    commit_filter (0.1.0)
       coffee-script (~> 2.3.0)
       diff_to_html (~> 0.0.1)
       gem_config (~> 0.3.1)
