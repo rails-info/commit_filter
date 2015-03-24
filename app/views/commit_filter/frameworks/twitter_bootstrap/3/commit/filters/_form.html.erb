@@ -16,18 +16,26 @@
     </legend>
     
     <%= form_field @filter, 'workspace', size: 45 %>
-    <%= form_field @filter, 'repository', size: 45 %>
     <%= form_field(
       @filter, 'repository_provider', size: 45, 
       field: select_tag(
-        'filter[repository_provider]', options_for_select(['', 'plan.io'], @filter.repository_provider),
+        'filter[repository_provider]', options_for_select(['', 'GitHub', 'plan.io'], @filter.repository_provider),
         style: 'width:325px;'
       )
     ) %>
-    <%= form_field @filter, 'repository_host', size: 45 %>
-    <%= form_field @filter, 'project_slug', size: 45 %>
+    <div id="github_fields" style="display:<%= @filter.repository_provider == 'GitHub' ? 'block' : 'none' %>">
+      <%= form_field @filter, 'user_or_organization', size: 45 %>
+    </div>
+    <div id="plan_io_fields" style="display:<%= @filter.repository_provider == 'plan.io' ? 'block' : 'none' %>">
+      <%= form_field @filter, 'repository_host', size: 45 %>
+      <%= form_field @filter, 'project_slug', size: 45 %>
+    </div>
+    <%= form_field @filter, 'repository', size: 45 %>
     <%= form_field @filter, 'branch', size: 45 %>
-    <%= form_field @filter, 'issue_url', size: 45 %>
+    
+    <div id="issue_url_field" style="display:<%= @filter.repository_provider == 'GitHub' ? 'none' : 'block' %>">
+      <%= form_field @filter, 'issue_url', size: 45 %>
+    </div>
     
     <% field = capture do %>
       <%= radio_button_tag 'filter[group_by_rails_file_category]', '1', @filter.group_by_rails_file_category ? true : false %> 

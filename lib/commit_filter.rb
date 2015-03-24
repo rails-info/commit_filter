@@ -21,6 +21,7 @@ module CommitFilter
     has :workspace, classes: String
     has :repository, classes: String
     has :repository_provider, classes: String
+    has :user_or_organization, classes: String
     has :repository_host, classes: String
     has :project_slug, classes: String
     has :branch, classes: String, default: 'master'

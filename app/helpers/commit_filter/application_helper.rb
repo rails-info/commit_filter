@@ -9,6 +9,10 @@ module CommitFilter
     end
     
     def message_with_issue_urls(message)
+      if @filter.repository_provider == 'GitHub'
+        @filter.issue_url = "https://github.com/#{@filter.user_or_organization}/#{@filter.repository}/issues/:id"
+      end  
+      
       if @filter.issue_url.present?
         message.gsub(/#([0-9]+)/) do |s| 
           issue_url = @filter.issue_url.split(':id')
@@ -25,11 +29,9 @@ module CommitFilter
       rev = params['rev'] || rev
       rev_to = params['rev_to'] || @filter.previous_revision_by_file[path]
      
-      url = if rev == rev_to 
-        if @filter.repository_provider == 'plan.io'
-          "#{@filter.repository_host}/projects/#{@filter.project_slug}/repository/revisions/#{rev}/entry/#{path}"
-        end
-      else 
+      url = if rev == rev_to
+        nil
+      else
         "#{new_commit_diff_path}?repository_path=#{@filter.repository_path}&path=#{path}&rev=#{rev}&rev_to=#{rev_to}"
       end
       
@@ -43,7 +45,9 @@ module CommitFilter
     end
     
     def annotate_file_link(text, rev, path, options = {})
-      url = if @filter.repository_provider == 'plan.io'
+      url = if @filter.repository_provider == 'GitHub'
+        "https://github.com/#{@filter.user_or_organization}/#{@filter.repository}/blame/#{rev}/#{path}"
+      elsif @filter.repository_provider == 'plan.io'
         "#{@filter.repository_host}/projects/#{@filter.project_slug}/repository/revisions/#{rev}/annotate/#{path}"
       end
       

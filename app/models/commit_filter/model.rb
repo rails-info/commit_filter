@@ -2,8 +2,8 @@ class CommitFilter::Model
   HASHTAG_REGEX = /(?:\s|^)(#(?!([0-9]?:\d+|\w+?_|_\w+?)(?:\s|$))([a-z0-9\-_]+))/i
   
   attr_accessor :workspace, :repository, :project_slug, :branch, :path, :author, :from, :to, :id, :hashtag
-  attr_accessor :message, :story, :tasks, :hide_merge_commits, :logger, :issue_url, :repository_provider, :repository_host
-  attr_accessor :group_by_rails_file_category
+  attr_accessor :message, :story, :tasks, :hide_merge_commits, :logger, :issue_url, :repository_provider, :user_or_organization
+  attr_accessor :repository_host, :group_by_rails_file_category
   attr_reader :errors, :commits_count, :last_revision, :first_revision, :previous_revision, :previous_revision_by_file
   
   def self.create(attributes = {})
@@ -87,6 +87,7 @@ class CommitFilter::Model
       'workspace' => CommitFilter.configuration.workspace,
       'repository' => CommitFilter.configuration.repository,
       'repository_provider' => CommitFilter.configuration.repository_provider,
+      'user_or_organization' => CommitFilter.configuration.user_or_organization,
       'repository_host' => CommitFilter.configuration.repository_host,
       'project_slug' => CommitFilter.configuration.project_slug,
       'branch' => CommitFilter.configuration.branch, 
@@ -114,7 +115,9 @@ class CommitFilter::Model
       @errors[field] = I18n.t('commit_filter.filters.create.errors.cannot_be_blank') if self.send(field).blank?
     end  
     
-    if repository_provider == 'plan.io'
+    if repository_provider == 'GitHub'
+      @errors['user_or_organization'] = I18n.t('commit_filter.filters.create.errors.cannot_be_blank') if user_or_organization.blank?
+    elsif repository_provider == 'plan.io'
       ['repository_host', 'project_slug'].each do |field|
         @errors[field] = I18n.t('commit_filter.filters.create.errors.cannot_be_blank') if self.send(field).blank?
       end  
@@ -240,7 +243,7 @@ class CommitFilter::Model
     
     files[file_path] ||= []
     files[file_path] << { 
-      id: commit.id, committed_at: commit.committed_date.strftime('%d.%m.%Y %H:%M:%S'),
+      id: commit.id, committed_at: commit.committed_date.strftime('%d.%m.%y %H:%M'),
       message: commit.message, author: commit.author.name
     }
   end

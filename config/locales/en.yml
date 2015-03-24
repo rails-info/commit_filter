@@ -33,6 +33,8 @@ en:
             title: Repository
           repository_provider:
             title: Repository Provider
+          user_or_organization:
+            title: User or Organization
           repository_host:
             title: Repository Host
           project_slug:
@@ -51,8 +53,10 @@ en:
             title: Author
           from:
             title: From
+            placeholder: e.g. 2015-01-01
           to:
             title: To
+            placeholder: e.g. 2015-01-01
           id:
             title: ID
           hashtag:
