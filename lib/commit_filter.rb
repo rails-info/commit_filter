@@ -16,6 +16,7 @@ module CommitFilter
   include GemConfig::Base
 
   with_configuration do
+    has :manifest_file, classes: String, default: 'application'
     has :frontend_framework, classes: String, values: ['twitter_bootstrap/3'], default: 'twitter_bootstrap/3'
     has :workspace_and_repository_from_rails_root, classes: [TrueClass, FalseClass], default: true
     has :workspace, classes: String

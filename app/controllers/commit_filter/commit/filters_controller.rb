@@ -4,7 +4,7 @@ class CommitFilter::Commit::FiltersController < CommitFilter::ApplicationControl
   def new
     params[:filter] ||= {}
     @filter = CommitFilter::Model.new(params[:filter].merge(logger: logger))
-    @commit_filter_javascripts = ['application', 'commit_filter/form']
+    @commit_filter_javascripts = [CommitFilter.configuration.manifest_file, 'commit_filter/form']
     
     render "#{framework_views_path}/commit/filters/new"
   end
@@ -17,9 +17,9 @@ class CommitFilter::Commit::FiltersController < CommitFilter::ApplicationControl
       flash[:alert] = I18n.t('commit_filter.filters.create.errors.nothing_found')
     end
     
-    @commit_filter_stylesheets = ['application', 'commit_filter/application', 'commit_filter/commit/diff']
+    @commit_filter_stylesheets = [CommitFilter.configuration.manifest_file, 'commit_filter/application', 'commit_filter/commit/diff']
     @commit_filter_javascripts = [
-      'application', 'commit_filter/form', 'commit_filter/file_commits', 
+      CommitFilter.configuration.manifest_file, 'commit_filter/form', 'commit_filter/file_commits', 
       "#{CommitFilter::ApplicationController.framework_views_path}/filter_result"
     ]
     

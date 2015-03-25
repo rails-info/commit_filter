@@ -11,11 +11,11 @@ module CommitFilter
     end
     
     def commit_filter_stylesheets
-      @commit_filter_stylesheets || ['application', 'commit_filter/application']
+      @commit_filter_stylesheets || [CommitFilter.configuration.manifest_file, 'commit_filter/application']
     end
   
     def commit_filter_javascripts
-      @commit_filter_javascripts || ['application']
+      @commit_filter_javascripts || [CommitFilter.configuration.manifest_file]
     end
     
     private
