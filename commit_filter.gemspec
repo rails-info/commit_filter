@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ['gawlista@gmail.com']
   s.homepage    = 'http://GitHub.com/volontarian/commit_filter'
   s.summary     = 'Rails engine which renders a view about (Git) commits with given criteria grouped by category (library, model, controller, javascript, view, configuration and misc) and file name.'
-  s.description = '& grouping by category + file http://bit.ly/commit-filter-0-1-0'
+  s.description = '& grouping by cat & file http://bit.ly/commit-filter-0-1-1'
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
