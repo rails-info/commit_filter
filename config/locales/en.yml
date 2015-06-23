@@ -78,7 +78,7 @@ en:
           repository_not_found: Repository not found.
           cannot_be_blank: can't be blank.
           not_enough_criteria: "Please set at least one of these: path, author, id, hashtag, message, story, tasks, from, to."
-          too_many_git_timeouts: Too many timeouts for git connection!
+          too_many_git_timeouts: Too many timeouts (per timeout %{timeout} seconds) for git connection!
     diff:
       errors:
         diff_length_not_one: "Not implemented error: diff length is not 1 but %{diff.length}."
