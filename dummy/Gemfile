@@ -5,4 +5,4 @@ gemspec path: File.expand_path(File.dirname(__FILE__) + "/../")
 
 gem 'home_page', path: '../../../../home_page/home_page'
 
-gem 'devise', github: 'plataformatec/devise'
+gem 'byebug', group: [:development, :test]
