@@ -13,8 +13,8 @@ class CommitFilter::Model
       begin
         resource.commits_by_file
       rescue Grit::Git::GitTimeout
-        @errors ||= {}
-        @errors['base'] = I18n.t('commit_filter.filters.create.errors.too_many_git_timeouts')
+        resource.errors ||= {}
+        resource.errors['base'] = I18n.t('commit_filter.filters.create.errors.too_many_git_timeouts', timeout: Grit::Git.git_timeout)
       end
     end
     
@@ -157,11 +157,13 @@ class CommitFilter::Model
       commit_message_includes_hashtag(commit.message)
     ) && (author.blank? || commit.author.name == author) && between_timespan?(commit.committed_date)
       true
+    elsif message == '' && hashtag == '' && (from.present? || to.present) && between_timespan?(commit.committed_date)
+      true
     else
-      @previous_revision ||= commit.id
-        
+      @previous_revision ||= commit.id 
+      
       throw :done if from.present? && Time.parse(from) > commit.committed_date
-  
+      
       false
     end
   end
@@ -194,7 +196,7 @@ class CommitFilter::Model
     @first_revision = commit.id
     @last_revision ||= commit.id
     @commits_count += 1
-    
+
     files.each {|file_path| add_commit_to_file(file_path, commit) }
   end
   
