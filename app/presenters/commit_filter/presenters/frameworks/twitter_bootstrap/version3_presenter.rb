@@ -20,16 +20,16 @@ class CommitFilter::Presenters::Frameworks::TwitterBootstrap::Version3Presenter 
   end
   
   def form_field(filter, name, options = {})
-    options[:placeholder] = t("commit_filter.filters.form.fields.#{name}.placeholder", default: 'NULL')
-    options.delete :placeholder if options[:placeholder] == 'NULL'
-    hint = t("commit_filter.filters.form.fields.#{name}.hint", default: 'NULL')
+    options[:placeholder] = I18n.t("commit_filter.filters.form.fields.#{name}.placeholder", default: 'NULL')
+    options.delete(:placeholder) if options[:placeholder] == 'NULL'
+    hint = I18n.t("commit_filter.filters.form.fields.#{name}.hint", default: 'NULL')
     hint = nil if hint == 'NULL'
     error = (filter.errors || {})[name]
     field = options.delete(:field)
     
     content_tag :div, class: 'form-group' + (error ? ' has-error' : '') do
       content = []
-      content << label_tag("filter[#{name}]", t("commit_filter.filters.form.fields.#{name}.title"), class: 'col-sm-3 control-label')
+      content << label_tag("filter[#{name}]", I18n.t("commit_filter.filters.form.fields.#{name}.title"), class: 'col-sm-3 control-label')
       
       content << content_tag(:div, class: 'col-sm-8') do
         controls = []

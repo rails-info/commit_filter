@@ -1,7 +1,7 @@
 <%= form_tag commit_filter.commit_filters_path, method: 'post', class: 'form-horizontal', id: 'commit_filter_form' do %>
   <% unless action_name == 'new' || @filter.valid? %>
      <div class="alert fade in alert-danger">
-       <strong><%= t('commit_filter.filters.form.invalid') %></strong> 
+       <strong><%= I18n.t('commit_filter.filters.form.invalid') %></strong> 
        <ul>
          <% @filter.errors.each do |field, error| %>
            <li><%= field.humanize %>: <%=error %></li>
@@ -12,7 +12,7 @@
   
   <fieldset>
     <legend>
-      <%= t('commit_filter.filters.form.tabs.basic.title') %>
+      <%= I18n.t('commit_filter.filters.form.tabs.basic.title') %>
     </legend>
     
     <%= form_field @filter, 'workspace', size: 45 %>
@@ -39,20 +39,20 @@
     
     <% field = capture do %>
       <%= radio_button_tag 'filter[group_by_rails_file_category]', '1', @filter.group_by_rails_file_category ? true : false %> 
-      <%= t('commit_filter.general.yes') %>
+      <%= I18n.t('commit_filter.general.yes') %>
       <%= radio_button_tag 'filter[group_by_rails_file_category]', '0', @filter.group_by_rails_file_category ? false : true  %> 
-      <%= t('commit_filter.general.no') %>
+      <%= I18n.t('commit_filter.general.no') %>
     <% end %>
     <%= form_field @filter, 'group_by_rails_file_category', size: 45, field: field %>
   </fieldset>
   <fieldset>
-    <legend><%= t('commit_filter.filters.form.tabs.time_span.title') %></legend>
+    <legend><%= I18n.t('commit_filter.filters.form.tabs.time_span.title') %></legend>
     
     <%= form_field @filter, 'from', size: 45, class: 'datepicker' %>
     <%= form_field @filter, 'to', size: 45, class: 'datepicker' %>
   </fieldset>
   <fieldset>
-    <legend><%= t('commit_filter.filters.form.tabs.commit.title') %></legend>
+    <legend><%= I18n.t('commit_filter.filters.form.tabs.commit.title') %></legend>
     
     <%= form_field @filter, 'id', size: 45 %>
     <%= form_field @filter, 'hashtag', size: 45 %>
@@ -62,9 +62,9 @@
     
     <% field = capture do %>
       <%= radio_button_tag 'filter[hide_merge_commits]', '1', @filter.hide_merge_commits ? true : false %> 
-      <%= t('commit_filter.general.yes') %>
+      <%= I18n.t('commit_filter.general.yes') %>
       <%= radio_button_tag 'filter[hide_merge_commits]', '0', @filter.hide_merge_commits ? false : true  %> 
-      <%= t('commit_filter.general.no') %>
+      <%= I18n.t('commit_filter.general.no') %>
     <% end %>
     <%= form_field @filter, 'hide_merge_commits', size: 45, field: field %>
   </fieldset>
@@ -74,7 +74,7 @@
   
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-10">
-      <button type="submit" class="btn btn-primary"><%= t('commit_filter.filters.form.submit')%></button>
+      <button type="submit" class="btn btn-primary"><%= I18n.t('commit_filter.filters.form.submit')%></button>
     </div>
   </div>
 <% end %>
